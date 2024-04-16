@@ -24,22 +24,22 @@ with seller as (
 select
     se.seller,
     count(s.sales_id) as operations,
-    sum(s.quantity * p.price) as income
+    floor(sum(s.quantity * p.price)) as income
 from sales as s
 inner join seller as se
     on s.sales_person_id = se.employee_id
 inner join products as p
     on s.product_id = p.product_id
 group by se.seller
-order by sum(s.quantity * p.price) desc
+order by floor(sum(s.quantity * p.price)) desc
 limit 10;
 
 --выводим продавцов, чья средняя выручка за сделку меньше средней выручки за сделку по всем продавцам.
 with seller as (
     select
         concat(e.first_name, ' ', e.last_name) as name,
-        round(avg(s.quantity * p.price), 0) as average_income,
-        round(sum(s.quantity * p.price), 0) as income
+        floor (avg(s.quantity * p.price)) as average_income,
+        floor (sum(s.quantity * p.price)) as income
     from sales as s
     inner join products as p
         on s.product_id = p.product_id
@@ -106,7 +106,7 @@ With tab as
 select to_char(s.sale_date,'YYYY-MM') as selling_month,
 	s.customer_id,
 	count(s.customer_id) as total_customers, 
-	round(sum(s.quantity*p.price),0) as income
+	floor(sum(s.quantity*p.price)) as income
 		from sales s 
 		join products p
 		on s.product_id =p.product_id 
