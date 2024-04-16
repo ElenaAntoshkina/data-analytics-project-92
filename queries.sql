@@ -13,7 +13,7 @@ SELECT
 	count(customer_id) AS customers_count
 FROM customers;
 
---считаем топ 10 продацов:
+--считаем топ 10 продацов с наибольшей выручкой:
 with seller as (
     select
         employee_id,
@@ -82,7 +82,7 @@ from tab
 order by seller, num_of_week;
 
 
---считаем коkичество покупателей в разных возрастных группах
+--считаем количество покупателей в разных возрастных группах
 with tab_age as (
     select
         case
@@ -100,7 +100,7 @@ from tab_age
 group by age_category order by age_category;
 
 
---выводим данные о количестве унакальных покупателей и выручке, которую они принесли по месяцам
+--выводим данные о количестве уникальных покупателей и выручке, которую они принесли по месяцам
 With tab as 
 	(
 select to_char(s.sale_date,'YYYY-MM') as selling_month,
