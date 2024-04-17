@@ -20,7 +20,6 @@ with seller as (
         concat(e.first_name, ' ', e.last_name) as seller
     from employees as e
 )
-
 select
     se.seller,
     count(s.sales_id) as operations,
@@ -47,7 +46,6 @@ with seller as (
         on s.sales_person_id = e.employee_id
     group by concat(e.first_name, ' ', e.last_name)
 )
-
 select
     se.name as seller,
     se.average_income
@@ -71,7 +69,6 @@ with tab as (
         to_char(s.sale_date, 'day'),
         to_char(s.sale_date, 'ID')
 )
-
 select
     seller,
     day_of_week,
@@ -90,7 +87,6 @@ with tab_age as (
         end as age_category
     from customers
 )
-
 select
     age_category,
     count(age_category) as age_count
@@ -110,7 +106,6 @@ with tab as (
         on s.product_id = p.product_id
     group by s.customer_id, to_char(s.sale_date, 'YYYY-MM')
 )
-
 select
     selling_month,
     count(customer_id) as total_customers,
@@ -139,7 +134,6 @@ with tab as (
     inner join products as p
         on s.product_id = p.product_id
 )
-
 select
     customer,
     sale_date,
