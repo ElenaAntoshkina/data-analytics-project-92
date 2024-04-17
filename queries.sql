@@ -79,7 +79,7 @@ select
     day_of_week,
     income
 from tab
-order by seller, num_of_week;
+order by num_of_week, seller;
 
 
 --считаем количество покупателей в разных возрастных группах
