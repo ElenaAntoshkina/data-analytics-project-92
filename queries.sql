@@ -60,7 +60,7 @@ order by se.average_income;
 with tab as (
     select
         concat(e.first_name, ' ', e.last_name) as seller,
-        to_char(s.sale_date, 'Day') as day_of_week,
+        to_char(s.sale_date, 'day') as day_of_week,
         to_char(s.sale_date, 'ID') as num_of_week,
         floor(sum(s.quantity * p.price)) as income
     from sales as s
@@ -70,7 +70,7 @@ with tab as (
         on s.product_id = p.product_id
     group by
         concat(e.first_name, ' ', e.last_name),
-        to_char(s.sale_date, 'Day'),
+        to_char(s.sale_date, 'day'),
         to_char(s.sale_date, 'ID')
 )
 
@@ -106,14 +106,14 @@ With tab as
 select to_char(s.sale_date,'YYYY-MM') as selling_month,
 	s.customer_id,
 	count(s.customer_id) as total_customers, 
-	floor(sum(s.quantity*p.price)) as income
+	sum(s.quantity*p.price) as income
 		from sales s 
 		join products p
 		on s.product_id =p.product_id 
 	group by s.customer_id,to_char(s.sale_date,'YYYY-MM')
 	)
 	select selling_month, count(customer_id) as total_customers,
-	sum (income)as income
+	floor(sum (income))as income
 	from tab
 	group by selling_month order by selling_month;
 	
