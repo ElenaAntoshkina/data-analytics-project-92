@@ -117,7 +117,7 @@ WITH tab AS (
         e.first_name || ' ' || e.last_name AS seller,
         (s.quantity * p.price) AS purchase,
         row_number()
-            OVER (PARTITION by s.customer_id ORDER BY s.sale_date ASC)
+            OVER (PARTITION BY s.customer_id ORDER BY s.sale_date ASC)
         AS rn
     FROM sales AS s
     INNER JOIN customers AS c
