@@ -54,8 +54,6 @@ select
 from seller as se
 where se.average_income < (select avg(average_income) from seller)
 order by se.average_income;
-
-
 --выводим данные по выручке по каждому продавцу и дню недели
 with tab as (
     select
@@ -101,22 +99,26 @@ group by age_category order by age_category;
 
 
 --выводим данные о количестве уникальных покупателей и выручке, которую они принесли по месяцам
-With tab as 
-	(
-select to_char(s.sale_date,'YYYY-MM') as selling_month,
-	s.customer_id,
-	count(s.customer_id) as total_customers, 
-	sum(s.quantity*p.price) as income
-		from sales s 
-		join products p
-		on s.product_id =p.product_id 
-	group by s.customer_id,to_char(s.sale_date,'YYYY-MM')
-	)
-	select selling_month, count(customer_id) as total_customers,
-	floor(sum (income))as income
-	from tab
-	group by selling_month order by selling_month;
-	
+with tab as (
+    select
+        s.customer_id,
+        to_char(s.sale_date, 'YYYY-MM') as selling_month,
+        count(s.customer_id) as total_customers,
+        sum(s.quantity * p.price) as income
+    from sales as s
+    inner join products as p
+        on s.product_id = p.product_id
+    group by s.customer_id, to_char(s.sale_date, 'YYYY-MM')
+)
+
+select
+    selling_month,
+    count(customer_id) as total_customers,
+    floor(sum(income)) as income
+from tab
+group by selling_month order by selling_month;
+
+
 --выводим покупателей, у которых первая покупка была акционная
 with tab as (
     select
@@ -145,5 +147,3 @@ select
 from tab
 where rn = 1 and purchase = 0
 order by customer_id;
-    ;
-	
